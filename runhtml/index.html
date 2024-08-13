@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Code Runner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            background-image: url('https://i.pinimg.com/originals/7c/f5/d9/7cf5d95ac563cb1688f99f23019de969.gif'); /* Replace with your GIF file */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        #editor {
+            width: 80%;
+            height: 300px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            border-radius: 5px;
+        }
+
+        #output {
+            width: 80%;
+            height: 300px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        #run-button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        #run-button:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        footer a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <textarea id="editor" placeholder="Write your HTML code here..."></textarea>
+    <button id="run-button">Run Code</button>
+    <iframe id="output"></iframe>
+
+    <footer>
+        Made By <a href="https://github.com/AbhishekSuresh2" target="_blank">Abhishek Suresh</a>
+    </footer>
+
+    <script>
+        document.getElementById('run-button').addEventListener('click', function() {
+            const code = document.getElementById('editor').value;
+            const iframe = document.getElementById('output');
+            iframe.srcdoc = code;
+        });
+    </script>
+</body>
+</html>
