@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://i.pinimg.com/originals/7c/f5/d9/7cf5d95ac563cb1688f99f23019de969.gif') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            animation: fadeInBackground 2s ease-in-out;
+        }
+
+        @keyframes fadeInBackground {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        #calculator-app {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            text-align: center;
+            animation: slideIn 1.5s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateY(-20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333; /* Dark text color for visibility */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #555; /* Darker text color for better readability */
+        }
+
+        select, input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #444; /* Darker text color for better readability */
+            text-align: left;
+            background: #f7f7f7;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .result p {
+            margin: 5px 0;
+        }
+
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+        }
+
+        footer a {
+            color: #007BFF;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="calculator-app">
+        <h1>Age Calculator</h1>
+        <label for="birthdate">Select Your Birth Date:</label>
+        <select id="year">
+            <!-- Years will be generated dynamically by JavaScript -->
+        </select>
+        <select id="month">
+            <option value="0">January</option>
+            <option value="1">February</option>
+            <option value="2">March</option>
+            <option value="3">April</option>
+            <option value="4">May</option>
+            <option value="5">June</option>
+            <option value="6">July</option>
+            <option value="7">August</option>
+            <option value="8">September</option>
+            <option value="9">October</option>
+            <option value="10">November</option>
+            <option value="11">December</option>
+        </select>
+        <select id="day">
+            <!-- Days will be generated dynamically by JavaScript -->
+        </select>
+        <button id="calculate-btn">Calculate</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <footer>
+        <p>Made By <a href="https://github.com/Nethindusl" target="_blank">Nethindu Thaminda</a></p>
+    </footer>
+
+    <script>
+        // Populate the year dropdown
+        const yearSelect = document.getElementById('year');
+        const currentYear = new Date().getFullYear();
+        for (let i = currentYear; i >= 1900; i--) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.text = i;
+            yearSelect.appendChild(option);
+        }
+
+        // Populate the day dropdown based on selected month and year
+        const daySelect = document.getElementById('day');
+        const monthSelect = document.getElementById('month');
+
+        function populateDays() {
+            const selectedYear = parseInt(yearSelect.value);
+            const selectedMonth = parseInt(monthSelect.value);
+            const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
+
+            daySelect.innerHTML = '';
+
+            for (let i = 1; i <= daysInMonth; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.text = i;
+                daySelect.appendChild(option);
+            }
+        }
+
+        yearSelect.addEventListener('change', populateDays);
+        monthSelect.addEventListener('change', populateDays);
+
+        document.getElementById('calculate-btn').addEventListener('click', function() {
+            const birthdate = new Date(yearSelect.value, monthSelect.value, daySelect.value);
+            const now = new Date();
+
+            if (isNaN(birthdate)) {
+                alert("Please Select A Valid Date!");
+                return;
+            }
+
+            const diffInMilliseconds = now - birthdate;
+            const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
+            const diffInMinutes = Math.floor(diffInSeconds / 60);
+            const diffInHours = Math.floor(diffInMinutes / 60);
+            const diffInDays = Math.floor(diffInHours / 24);
+            const diffInYears = Math.floor(diffInDays / 365.25);
+            const diffInMonths = Math.floor((diffInDays % 365.25) / 30.4375);
+
+            const nextBirthday = new Date(now.getFullYear(), birthdate.getMonth(), birthdate.getDate());
+            if (nextBirthday < now) {
+                nextBirthday.setFullYear(now.getFullYear() + 1);
+            }
+            const timeToNextBirthday = nextBirthday - now;
+            const daysToNextBirthday = Math.floor(timeToNextBirthday / (1000 * 60 * 60 * 24));
+            const hoursToNextBirthday = Math.floor((timeToNextBirthday / (1000 * 60 * 60)) % 24);
+            const minutesToNextBirthday = Math.floor((timeToNextBirthday / (1000 * 60)) % 60);
+            const secondsToNextBirthday = Math.floor((timeToNextBirthday / 1000) % 60);
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <p><strong>Age:</strong> ${diffInYears} years, ${diffInMonths} months, ${(diffInDays % 30)} days</p>
+                <p><strong>Total Time:</strong> ${diffInHours} hours, ${diffInMinutes} minutes, ${diffInSeconds} seconds</p>
+                <p><strong>Next Birthday:</strong> ${daysToNextBirthday} days, ${hoursToNextBirthday} hours, ${minutesToNextBirthday} minutes, ${secondsToNextBirthday} seconds</p>
+            `;
+        });
+
+        // Initial population of days based on the current month and year
+        populateDays();
+    </script>
+</body>
+</html>
