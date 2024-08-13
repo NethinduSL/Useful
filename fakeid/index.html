@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake Identity Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://i.pinimg.com/originals/7c/f5/d9/7cf5d95ac563cb1688f99f23019de969.gif') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            animation: fadeInBackground 2s ease-in-out;
+        }
+
+        @keyframes fadeInBackground {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        #generator-container {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            text-align: center;
+            animation: slideIn 1.5s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateY(-20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333; /* Dark text color for visibility */
+        }
+
+        .identity-field {
+            margin-bottom: 10px;
+            font-size: 18px;
+            text-align: left; /* Align text to the left for better readability */
+            color: #333; /* Dark text color for visibility */
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        #generated-identity {
+            margin-top: 20px;
+        }
+
+        /* Footer Styles */
+        footer {
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+            margin-top: 20px;
+        }
+
+        footer a {
+            color: #007BFF;
+            text-decoration: none;
+            transition: text-decoration 0.3s ease;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div id="generator-container">
+        <h1>Fake Identity Generator</h1>
+        <button id="generate-btn">Generate Identity</button>
+        
+        <div id="generated-identity">
+            <div class="identity-field" id="name"></div>
+            <div class="identity-field" id="surname"></div>
+            <div class="identity-field" id="gender"></div>
+            <div class="identity-field" id="phone"></div>
+            <div class="identity-field" id="email"></div>
+            <div class="identity-field" id="address"></div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>Made By <a href="https://github.com/Nethindusl" target="_blank">Nethindu Thaminda</a></p>
+    </footer>
+
+    <script>
+        const generateBtn = document.getElementById('generate-btn');
+        const nameField = document.getElementById('name');
+        const surnameField = document.getElementById('surname');
+        const genderField = document.getElementById('gender');
+        const phoneField = document.getElementById('phone');
+        const emailField = document.getElementById('email');
+        const addressField = document.getElementById('address');
+
+        const firstNames = ['Jithula', 'Rakmitha', 'Sanuja', 'Maduka', 'Thisun', 'Emily', 'Cristina', 'Michael', 'Sarah', 'David', 'Laura', 'Johnny', 'Robert', 'Mariya', 'Emma', 'Therese'];
+        const lastNames = ['Smith', 'Johnson', 'Williams', 'Modaya', 'Jones', 'Garcia', 'Miller', 'Davis', 'Martinez', 'Hernandez'];
+        const genders = ['Male', 'Female', 'Other'];
+        const domains = ['yahoo.com', 'mail.com', 'web.com', 'internet.com', 'gmail.com', 'rhyta.com'];
+
+        function getRandomElement(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function generatePhoneNumber() {
+            return '+1 ' + Math.floor(Math.random() * 9000000000 + 1000000000);
+        }
+
+        function generateEmail(name, surname) {
+            return `${name.toLowerCase()}.${surname.toLowerCase()}@${getRandomElement(domains)}`;
+        }
+
+        function generateAddress() {
+            return Math.floor(Math.random() * 1000) + ' ' + getRandomElement(lastNames) + ' St, City, Country';
+        }
+
+        generateBtn.addEventListener('click', () => {
+            const firstName = getRandomElement(firstNames);
+            const lastName = getRandomElement(lastNames);
+            const gender = getRandomElement(genders);
+            const phone = generatePhoneNumber();
+            const email = generateEmail(firstName, lastName);
+            const address = generateAddress();
+
+            nameField.textContent = 'Name: ' + firstName;
+            surnameField.textContent = 'Surname: ' + lastName;
+            genderField.textContent = 'Gender: ' + gender;
+            phoneField.textContent = 'Phone: ' + phone;
+            emailField.textContent = 'Email: ' + email;
+            addressField.textContent = 'Address: ' + address;
+        });
+    </script>
+</body>
+</html>
